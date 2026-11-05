@@ -157,9 +157,53 @@
   const starPoints = new THREE.Points(starGeo, starMaterial);
   scene.add(starPoints);
 
-  // Mouse Parallax
+  // --- 3. FLOATING 3D GLASS CRYSTAL NODES (Interactive across scroll) ---
+  const crystalGroup = new THREE.Group();
+  const crystalCount = 12;
+  const crystals = [];
+
+  const crystalGeoList = [
+    new THREE.OctahedronGeometry(28, 0),
+    new THREE.TetrahedronGeometry(32, 0),
+    new THREE.IcosahedronGeometry(26, 0)
+  ];
+
+  for (let i = 0; i < crystalCount; i++) {
+    const geo = crystalGeoList[i % crystalGeoList.length];
+    const mat = new THREE.MeshStandardMaterial({
+      color: i % 2 === 0 ? 0x00d9ff : 0xffffff,
+      metalness: 0.9,
+      roughness: 0.15,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.38
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+
+    // Spread along the 3D scroll depth
+    mesh.position.set(
+      (Math.random() - 0.5) * 1600,
+      (Math.random() - 0.5) * 1200 - (i * 120),
+      (Math.random() - 0.5) * 800 - 100
+    );
+    mesh.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, 0);
+
+    mesh.userData = {
+      rotSpeedX: (Math.random() - 0.5) * 0.03,
+      rotSpeedY: (Math.random() - 0.5) * 0.03,
+      floatSpeed: 0.5 + Math.random() * 0.8,
+      initialY: mesh.position.y
+    };
+
+    crystals.push(mesh);
+    crystalGroup.add(mesh);
+  }
+  scene.add(crystalGroup);
+
+  // Mouse & Scroll Parallax
   let mouseX = 0;
   let mouseY = 0;
+  let scrollYPos = 0;
   let targetCamX = 0;
   let targetCamY = 220;
   const windowHalfX = window.innerWidth / 2;
@@ -176,6 +220,10 @@
     }
   });
 
+  window.addEventListener('scroll', () => {
+    scrollYPos = window.scrollY || window.pageYOffset;
+  });
+
   window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -189,28 +237,37 @@
     requestAnimationFrame(animate);
     const time = clock.getElapsedTime();
 
-    // Smooth Interactive Camera Parallax
+    // Smooth Scroll-Driven 3D Camera Travel
+    const scrollTargetY = 220 - (scrollYPos * 0.45);
+    const scrollTargetZ = 750 + Math.sin(scrollYPos * 0.001) * 100;
+    const scrollTargetRotZ = (scrollYPos * 0.00015) + (mouseX * 0.00005);
+
     targetCamX = mouseX * 0.35;
-    targetCamY = 220 + (-mouseY * 0.25);
+    targetCamY = scrollTargetY + (-mouseY * 0.25);
+
     camera.position.x += (targetCamX - camera.position.x) * 0.04;
     camera.position.y += (targetCamY - camera.position.y) * 0.04;
-    camera.lookAt(0, -60, 0);
+    camera.position.z += (scrollTargetZ - camera.position.z) * 0.04;
+    camera.rotation.z += (scrollTargetRotZ - camera.rotation.z) * 0.04;
+    camera.lookAt(0, -60 - (scrollYPos * 0.3), 0);
 
     // Dynamic Harmonic 3D Wave Calculation
     const posAttr = waveGeometry.attributes.position;
     const array = posAttr.array;
     let pIndex = 0;
 
+    // React to scroll velocity & time
+    const waveIntensity = 1 + Math.min(scrollYPos * 0.001, 1.5);
+
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         const u = c / cols;
         const v = r / rows;
 
-        // Multiple overlapping sine harmonics for organic water/silk wave motion
-        const wave1 = Math.sin(u * 7.0 + time * 1.5) * 45;
-        const wave2 = Math.cos(v * 6.0 + time * 1.2) * 35;
-        const wave3 = Math.sin((u + v) * 5.0 + time * 1.8) * 25;
-        const ripple = Math.sin(Math.sqrt((u - 0.5) * (u - 0.5) + (v - 0.5) * (v - 0.5)) * 12.0 - time * 2.0) * 20;
+        const wave1 = Math.sin(u * 7.0 + time * 1.6) * 45 * waveIntensity;
+        const wave2 = Math.cos(v * 6.0 + time * 1.3) * 35;
+        const wave3 = Math.sin((u + v) * 5.0 + time * 2.0) * 25;
+        const ripple = Math.sin(Math.sqrt((u - 0.5) * (u - 0.5) + (v - 0.5) * (v - 0.5)) * 14.0 - time * 2.2) * 22;
 
         array[pIndex * 3 + 1] = -190 + wave1 + wave2 + wave3 + ripple;
         pIndex++;
@@ -218,9 +275,16 @@
     }
     posAttr.needsUpdate = true;
 
-    // Gentle starfield drift
-    starPoints.rotation.y = time * 0.015;
-    starPoints.rotation.x = Math.sin(time * 0.01) * 0.05;
+    // 3D Crystal Nodes Rotation & Floating
+    crystals.forEach((cr, idx) => {
+      cr.rotation.x += cr.userData.rotSpeedX;
+      cr.rotation.y += cr.userData.rotSpeedY;
+      cr.position.y = cr.userData.initialY + Math.sin(time * cr.userData.floatSpeed + idx) * 35;
+    });
+
+    // Starfield Drift
+    starPoints.rotation.y = time * 0.02 + (scrollYPos * 0.0003);
+    starPoints.rotation.x = Math.sin(time * 0.015) * 0.08;
 
     renderer.render(scene, camera);
   }
@@ -228,9 +292,9 @@
   animate();
 })();
 
-// 2. 3D GYROSCOPIC TILT PHYSICS (Services & Hero Cards)
+// 2. 3D GYROSCOPIC TILT PHYSICS (Cards & Elements)
 function initTiltEffects() {
-  const tiltElements = document.querySelectorAll('.service-card, .hero-logo-frame, .why-card');
+  const tiltElements = document.querySelectorAll('.service-card, .scope-card, .vision-card, .hero-logo-frame, .insight-card');
 
   tiltElements.forEach(card => {
     card.addEventListener('mousemove', (e) => {
@@ -241,19 +305,19 @@ function initTiltEffects() {
       const centerX = rect.width / 2;
       const centerY = rect.height / 2;
       
-      const rotateX = ((y - centerY) / centerY) * -12;
-      const rotateY = ((x - centerX) / centerX) * 12;
+      const rotateX = ((y - centerY) / centerY) * -14;
+      const rotateY = ((x - centerX) / centerX) * 14;
 
-      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale3d(1.02, 1.02, 1.02)`;
     });
 
     card.addEventListener('mouseleave', () => {
-      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+      card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px) scale3d(1, 1, 1)';
     });
   });
 }
 
-// 3. GSAP SCROLL ENTRANCE & MOTION GRAPHICS
+// 3. GSAP SCROLL ENTRANCE & 3D MOTION GRAPHICS
 function initMotionGraphics() {
   if (typeof gsap === 'undefined') return;
 
@@ -269,34 +333,65 @@ function initMotionGraphics() {
   gsap.from('.hero-value-badges .value-badge-item', { opacity: 0, y: 20, duration: 0.8, delay: 0.8, stagger: 0.15, ease: 'power2.out' });
   gsap.from('.hero-visual-card', { opacity: 0, scale: 0.85, duration: 1.3, delay: 0.3, ease: 'power3.out' });
 
-  // ScrollTrigger Animations for Sections
+  // ScrollTrigger 3D Dynamic Entrances
   if (typeof ScrollTrigger !== 'undefined') {
-    // Services Stagger Entrance
+    // Vision Cards 3D Entrance
+    gsap.from('.vision-card', {
+      scrollTrigger: {
+        trigger: '.vision-section',
+        start: 'top 80%',
+      },
+      opacity: 0,
+      rotationY: 15,
+      y: 60,
+      stagger: 0.2,
+      duration: 1.1,
+      ease: 'power3.out'
+    });
+
+    // Services 3D Stagger Entrance
     gsap.from('.service-card', {
       scrollTrigger: {
         trigger: '.services-section',
         start: 'top 80%',
       },
       opacity: 0,
-      y: 60,
-      stagger: 0.15,
-      duration: 1,
+      rotationX: -15,
+      y: 70,
+      stagger: 0.12,
+      duration: 1.1,
       ease: 'power3.out'
     });
 
-    // Portfolio Items Reveal
-    gsap.from('.portfolio-item', {
+    // Scope 3D Cards Stagger
+    gsap.from('.scope-card', {
       scrollTrigger: {
-        trigger: '.portfolio-section',
+        trigger: '.scope-section',
         start: 'top 80%',
       },
       opacity: 0,
-      scale: 0.9,
-      stagger: 0.12,
-      duration: 0.9,
+      scale: 0.92,
+      y: 50,
+      stagger: 0.1,
+      duration: 1,
       ease: 'power2.out'
     });
+
+    // Field Notes 3D Cards Reveal
+    gsap.from('.insight-card', {
+      scrollTrigger: {
+        trigger: '.insights-section',
+        start: 'top 80%',
+      },
+      opacity: 0,
+      y: 60,
+      rotationY: -10,
+      stagger: 0.12,
+      duration: 1,
+      ease: 'power3.out'
+    });
   }
+}
 
   // Motion graphics setup complete
 }
