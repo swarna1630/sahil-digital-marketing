@@ -7,22 +7,22 @@
    - Smooth Interactive Micro-Animations
    ========================================================================== */
 
-// 1. THREE.JS 3D SCENE & AMBIENT MOTION GRAPHICS
+// 1. THREE.JS 3D CINEMATIC BACKGROUND ENGINE
 (function init3DScene() {
   const bgCanvas = document.getElementById('webgl-canvas');
   if (!bgCanvas || typeof THREE === 'undefined') return;
 
-  // --- Background Ambient Space Scene ---
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x020614, 0.0009);
+  scene.fog = new THREE.FogExp2(0x020614, 0.00075);
 
   const camera = new THREE.PerspectiveCamera(
-    60,
+    55,
     window.innerWidth / window.innerHeight,
     0.1,
-    2500
+    3000
   );
-  camera.position.z = 900;
+  camera.position.set(0, 220, 750);
+  camera.lookAt(0, 0, 0);
 
   const renderer = new THREE.WebGLRenderer({
     canvas: bgCanvas,
@@ -33,101 +33,135 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  // Lighting System: Metallic Silver, Electric Blue & Cyber Cyan
-  const ambientLight = new THREE.AmbientLight(0x0c1b3d, 1.8);
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0x0a1936, 2.0);
   scene.add(ambientLight);
 
-  const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
-  keyLight.position.set(400, 600, 500);
-  scene.add(keyLight);
+  const mainLight = new THREE.DirectionalLight(0x00d9ff, 2.8);
+  mainLight.position.set(300, 600, 400);
+  scene.add(mainLight);
 
-  const fillCyanLight = new THREE.DirectionalLight(0x00d9ff, 2.0);
-  fillCyanLight.position.set(-400, -300, 400);
-  scene.add(fillCyanLight);
+  const backLight = new THREE.DirectionalLight(0x008cff, 2.0);
+  backLight.position.set(-300, -200, -200);
+  scene.add(backLight);
 
-  const pointBlue = new THREE.PointLight(0x008cff, 3.5, 1200);
-  pointBlue.position.set(200, 100, 200);
-  scene.add(pointBlue);
+  // --- 1. A BEAUTIFUL 3D UNDULATING CYBER WAVE MATRIX (Points) ---
+  const waveWidth = 2400;
+  const waveDepth = 2000;
+  const cols = 90;
+  const rows = 80;
+  const totalWavePoints = cols * rows;
 
-  // 3,000 Glowing Cyber & Silver Star Particles
-  const particleCount = 3000;
-  const geometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(particleCount * 3);
-  const colors = new Float32Array(particleCount * 3);
+  const waveGeometry = new THREE.BufferGeometry();
+  const wavePositions = new Float32Array(totalWavePoints * 3);
+  const waveColors = new Float32Array(totalWavePoints * 3);
 
-  const colPureWhite = new THREE.Color(0xffffff);
-  const colCyan = new THREE.Color(0x00d9ff);
-  const colBlue = new THREE.Color(0x008cff);
-  const colSilver = new THREE.Color(0xcbd5e1);
+  const colorCyan = new THREE.Color(0x00d9ff);
+  const colorBlue = new THREE.Color(0x0066ff);
+  const colorSilver = new THREE.Color(0xe2e8f0);
 
-  for (let i = 0; i < particleCount; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 2800;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 2400;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 2200;
+  let idx = 0;
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const u = c / (cols - 1);
+      const v = r / (rows - 1);
+      const x = (u - 0.5) * waveWidth;
+      const z = (v - 0.5) * waveDepth - 100;
+      const y = -180;
 
-    const r = Math.random();
-    let c = colCyan;
-    if (r > 0.65) c = colPureWhite;
-    else if (r > 0.40) c = colBlue;
-    else if (r > 0.20) c = colSilver;
+      wavePositions[idx * 3] = x;
+      wavePositions[idx * 3 + 1] = y;
+      wavePositions[idx * 3 + 2] = z;
 
-    colors[i * 3] = c.r;
-    colors[i * 3 + 1] = c.g;
-    colors[i * 3 + 2] = c.b;
+      // Color gradient across the wave
+      const mixCol = colorCyan.clone().lerp(colorBlue, Math.sin(u * Math.PI) * 0.7);
+      if (r % 7 === 0) mixCol.lerp(colorSilver, 0.4);
+
+      waveColors[idx * 3] = mixCol.r;
+      waveColors[idx * 3 + 1] = mixCol.g;
+      waveColors[idx * 3 + 2] = mixCol.b;
+
+      idx++;
+    }
   }
 
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  waveGeometry.setAttribute('position', new THREE.BufferAttribute(wavePositions, 3));
+  waveGeometry.setAttribute('color', new THREE.BufferAttribute(waveColors, 3));
 
-  function createParticleTexture() {
+  function createGlowDotTexture() {
     const pCanvas = document.createElement('canvas');
     pCanvas.width = 64;
     pCanvas.height = 64;
     const ctx = pCanvas.getContext('2d');
-    const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-    gradient.addColorStop(0, 'rgba(255,255,255,1)');
-    gradient.addColorStop(0.2, 'rgba(0,217,255,0.9)');
-    gradient.addColorStop(0.55, 'rgba(0,140,255,0.3)');
-    gradient.addColorStop(1, 'rgba(0,0,0,0)');
-    ctx.fillStyle = gradient;
+    const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(0.25, 'rgba(0,217,255,0.9)');
+    grad.addColorStop(0.6, 'rgba(0,110,255,0.3)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = grad;
     ctx.fillRect(0, 0, 64, 64);
     const texture = new THREE.Texture(pCanvas);
     texture.needsUpdate = true;
     return texture;
   }
 
-  const particleMaterial = new THREE.PointsMaterial({
-    size: 6.5,
+  const glowTexture = createGlowDotTexture();
+
+  const waveMaterial = new THREE.PointsMaterial({
+    size: 7.5,
     vertexColors: true,
-    map: createParticleTexture(),
+    map: glowTexture,
     transparent: true,
-    opacity: 0.88,
+    opacity: 0.82,
     blending: THREE.AdditiveBlending,
     depthWrite: false
   });
 
-  const particleSystem = new THREE.Points(geometry, particleMaterial);
-  scene.add(particleSystem);
+  const wavePoints = new THREE.Points(waveGeometry, waveMaterial);
+  scene.add(wavePoints);
 
-  // Background Cyber Constellation Mesh
-  const polyGeo = new THREE.IcosahedronGeometry(480, 2);
-  const polyMat = new THREE.MeshStandardMaterial({
-    color: 0x00d9ff,
-    metalness: 0.9,
-    roughness: 0.1,
-    wireframe: true,
+  // --- 2. FLOATING CELESTIAL STARDUST PARTICLES ---
+  const starCount = 1400;
+  const starGeo = new THREE.BufferGeometry();
+  const starPos = new Float32Array(starCount * 3);
+  const starCols = new Float32Array(starCount * 3);
+
+  for (let i = 0; i < starCount; i++) {
+    starPos[i * 3] = (Math.random() - 0.5) * 2600;
+    starPos[i * 3 + 1] = (Math.random() - 0.5) * 1600 + 100;
+    starPos[i * 3 + 2] = (Math.random() - 0.5) * 2200;
+
+    const rnd = Math.random();
+    let col = colorCyan;
+    if (rnd > 0.6) col = colorSilver;
+    else if (rnd > 0.3) col = colorBlue;
+
+    starCols[i * 3] = col.r;
+    starCols[i * 3 + 1] = col.g;
+    starCols[i * 3 + 2] = col.b;
+  }
+
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  starGeo.setAttribute('color', new THREE.BufferAttribute(starCols, 3));
+
+  const starMaterial = new THREE.PointsMaterial({
+    size: 5.5,
+    vertexColors: true,
+    map: glowTexture,
     transparent: true,
-    opacity: 0.12
+    opacity: 0.75,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false
   });
-  const bgSphere = new THREE.Mesh(polyGeo, polyMat);
-  bgSphere.position.set(-350, -100, -300);
-  scene.add(bgSphere);
 
-  // Mouse Follow & Parallax
+  const starPoints = new THREE.Points(starGeo, starMaterial);
+  scene.add(starPoints);
+
+  // Mouse Parallax
   let mouseX = 0;
   let mouseY = 0;
-  let targetX = 0;
-  let targetY = 0;
+  let targetCamX = 0;
+  let targetCamY = 220;
   const windowHalfX = window.innerWidth / 2;
   const windowHalfY = window.innerHeight / 2;
 
@@ -153,20 +187,40 @@
 
   function animate() {
     requestAnimationFrame(animate);
-    const elapsedTime = clock.getElapsedTime();
+    const time = clock.getElapsedTime();
 
-    // Camera inertia
-    targetX = mouseX * 0.25;
-    targetY = mouseY * 0.25;
-    camera.position.x += (targetX - camera.position.x) * 0.05;
-    camera.position.y += (-targetY - camera.position.y) * 0.05;
-    camera.lookAt(scene.position);
+    // Smooth Interactive Camera Parallax
+    targetCamX = mouseX * 0.35;
+    targetCamY = 220 + (-mouseY * 0.25);
+    camera.position.x += (targetCamX - camera.position.x) * 0.04;
+    camera.position.y += (targetCamY - camera.position.y) * 0.04;
+    camera.lookAt(0, -60, 0);
 
-    // Global background rotation
-    particleSystem.rotation.y = elapsedTime * 0.028;
-    particleSystem.rotation.x = elapsedTime * 0.012;
-    bgSphere.rotation.x = elapsedTime * 0.04;
-    bgSphere.rotation.y = elapsedTime * 0.06;
+    // Dynamic Harmonic 3D Wave Calculation
+    const posAttr = waveGeometry.attributes.position;
+    const array = posAttr.array;
+    let pIndex = 0;
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const u = c / cols;
+        const v = r / rows;
+
+        // Multiple overlapping sine harmonics for organic water/silk wave motion
+        const wave1 = Math.sin(u * 7.0 + time * 1.5) * 45;
+        const wave2 = Math.cos(v * 6.0 + time * 1.2) * 35;
+        const wave3 = Math.sin((u + v) * 5.0 + time * 1.8) * 25;
+        const ripple = Math.sin(Math.sqrt((u - 0.5) * (u - 0.5) + (v - 0.5) * (v - 0.5)) * 12.0 - time * 2.0) * 20;
+
+        array[pIndex * 3 + 1] = -190 + wave1 + wave2 + wave3 + ripple;
+        pIndex++;
+      }
+    }
+    posAttr.needsUpdate = true;
+
+    // Gentle starfield drift
+    starPoints.rotation.y = time * 0.015;
+    starPoints.rotation.x = Math.sin(time * 0.01) * 0.05;
 
     renderer.render(scene, camera);
   }
