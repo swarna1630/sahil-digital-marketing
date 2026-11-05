@@ -149,100 +149,6 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 
-  // --- Dedicated Hero 3D Holographic Orbit Canvas ---
-  const heroCanvas = document.getElementById('hero-3d-canvas');
-  let heroRenderer, heroScene, heroCamera, heroOrbitGroup, heroTorusA, heroTorusB, heroTorusC, heroCoreMesh;
-
-  if (heroCanvas) {
-    heroScene = new THREE.Scene();
-    heroCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-    heroCamera.position.z = 480;
-
-    heroRenderer = new THREE.WebGLRenderer({
-      canvas: heroCanvas,
-      alpha: true,
-      antialias: true
-    });
-    heroRenderer.setSize(520, 520);
-    heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-    const hLight1 = new THREE.AmbientLight(0xffffff, 1.6);
-    heroScene.add(hLight1);
-
-    const hLight2 = new THREE.PointLight(0x00d9ff, 3.5, 600);
-    hLight2.position.set(100, 150, 200);
-    heroScene.add(hLight2);
-
-    heroOrbitGroup = new THREE.Group();
-
-    // Metallic Outer Torus (Electric Blue / Cyan)
-    const tGeoA = new THREE.TorusGeometry(175, 2.2, 16, 100);
-    const tMatA = new THREE.MeshStandardMaterial({
-      color: 0x00d9ff,
-      metalness: 0.95,
-      roughness: 0.15,
-      emissive: 0x008cff,
-      emissiveIntensity: 0.35,
-      wireframe: true
-    });
-    heroTorusA = new THREE.Mesh(tGeoA, tMatA);
-    heroOrbitGroup.add(heroTorusA);
-
-    // Diagonal Metallic Gyro Ring
-    const tGeoB = new THREE.TorusGeometry(140, 1.8, 16, 80);
-    const tMatB = new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      metalness: 0.9,
-      roughness: 0.2,
-      emissive: 0x00d9ff,
-      emissiveIntensity: 0.25
-    });
-    heroTorusB = new THREE.Mesh(tGeoB, tMatB);
-    heroTorusB.rotation.x = Math.PI / 3;
-    heroOrbitGroup.add(heroTorusB);
-
-    // Inner Fast Gyroscope Ring
-    const tGeoC = new THREE.TorusGeometry(110, 1.5, 12, 60);
-    const tMatC = new THREE.MeshStandardMaterial({
-      color: 0x008cff,
-      metalness: 0.95,
-      roughness: 0.1,
-      wireframe: true
-    });
-    heroTorusC = new THREE.Mesh(tGeoC, tMatC);
-    heroTorusC.rotation.y = Math.PI / 4;
-    heroOrbitGroup.add(heroTorusC);
-
-    // Holographic Core Wireframe Crystal
-    const coreGeo = new THREE.IcosahedronGeometry(75, 1);
-    const coreMat = new THREE.MeshStandardMaterial({
-      color: 0x00d9ff,
-      metalness: 0.85,
-      roughness: 0.2,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.45
-    });
-    heroCoreMesh = new THREE.Mesh(coreGeo, coreMat);
-    heroOrbitGroup.add(heroCoreMesh);
-
-    // Small Orbiting Satellite Spheres
-    const satGeo = new THREE.SphereGeometry(6, 16, 16);
-    const satMat = new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      emissive: 0x00d9ff,
-      emissiveIntensity: 0.8
-    });
-    for (let k = 0; k < 4; k++) {
-      const sat = new THREE.Mesh(satGeo, satMat);
-      const angle = (k / 4) * Math.PI * 2;
-      sat.position.set(Math.cos(angle) * 175, Math.sin(angle) * 175, 0);
-      heroTorusA.add(sat);
-    }
-
-    heroScene.add(heroOrbitGroup);
-  }
-
   const clock = new THREE.Clock();
 
   function animate() {
@@ -263,24 +169,6 @@
     bgSphere.rotation.y = elapsedTime * 0.06;
 
     renderer.render(scene, camera);
-
-    // Hero 3D interactive holographic animation
-    if (heroRenderer && heroOrbitGroup) {
-      heroOrbitGroup.rotation.y = elapsedTime * 0.45 + (mouseX * 0.001);
-      heroOrbitGroup.rotation.x = Math.sin(elapsedTime * 0.35) * 0.25 + (mouseY * 0.001);
-
-      heroTorusA.rotation.z = elapsedTime * 0.3;
-      heroTorusB.rotation.x = elapsedTime * 0.4;
-      heroTorusB.rotation.y = -elapsedTime * 0.25;
-      heroTorusC.rotation.z = -elapsedTime * 0.5;
-
-      heroCoreMesh.rotation.y = -elapsedTime * 0.6;
-      heroCoreMesh.rotation.x = elapsedTime * 0.3;
-      const coreScale = 1 + Math.sin(elapsedTime * 2.5) * 0.08;
-      heroCoreMesh.scale.set(coreScale, coreScale, coreScale);
-
-      heroRenderer.render(heroScene, heroCamera);
-    }
   }
 
   animate();
