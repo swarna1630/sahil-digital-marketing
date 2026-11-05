@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SAHIL DIGITAL MARKETING | Think Beyond Limits. Grow Beyond Expectations.</title>
+  <meta name="description" content="Official website of SAHIL Digital Marketing. We transform ideas into powerful digital experiences through creativity, strategy, and cutting-edge technology.">
+  <link rel="icon" type="image/png" href="assets/sahil-official-logo.png">
+
+  <!-- Fonts: Plus Jakarta Sans & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Motion Graphics: Cyber Grid & Radar Scanning Beam -->
+  <div class="cyber-grid"></div>
+  <div class="radar-beam"></div>
+
+  <!-- Three.js Interactive 3D Canvas Background -->
+  <canvas id="webgl-canvas"></canvas>
+
+  <!-- Mouse Light Effect -->
+  <div id="ambient-glow" class="ambient-glow"></div>
+
+  <!-- ==========================================================================
+       HEADER & NAVIGATION
+       Official Logo Preserved Exactly Without Modifications
+       ========================================================================== -->
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="#hero" class="nav-logo" aria-label="SAHIL Digital Marketing Home">
+        <!-- EXACT OFFICIAL LOGO ASSET (UNMODIFIED) -->
+        <img src="assets/sahil-official-logo.png" alt="SAHIL Digital Marketing Official Logo" class="official-logo-img">
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="active">Home</a></li>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#services">Our Services</a></li>
+        <li><a href="#showcase">Showcase</a></li>
+        <li><a href="#why-us">Why Choose Us</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="#contact" class="btn btn-primary btn-glow">Get a Proposal</a>
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       HERO SECTION
+       ========================================================================== -->
+  <section id="hero" class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-brand-badge">
+          <i class="fa-solid fa-bolt" style="color: var(--cyan-glow);"></i> Next-Gen Digital Agency
+        </div>
+
+        <h1 class="hero-title">
+          THINK BEYOND LIMITS. <br>
+          <span class="gradient-text">GROW BEYOND EXPECTATIONS.</span>
+        </h1>
+
+        <p class="hero-desc">
+          We transform ideas into powerful digital experiences through creativity, strategy and technology.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#services" class="btn btn-primary btn-glow">
+            <span>Explore Our Services</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <a href="#contact" class="btn btn-secondary">
+            <span>Let's Work Together</span>
+            <i class="fa-solid fa-handshake"></i>
+          </a>
+        </div>
+
+        <div class="hero-metrics">
+          <div class="metric-item">
+            <div class="metric-number">98%</div>
+            <div class="metric-label">Client Retention</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-number">4.8x</div>
+            <div class="metric-label">Average ROAS</div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-number">50M+</div>
+            <div class="metric-label">Audience Reached</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Visual: Displaying Official SAHIL Logo with 3D Cyber Frame -->
+      <div class="hero-visual-card">
+        <div class="floating-tech-badge badge-top">
+          <i class="fa-solid fa-chart-line" style="color: var(--cyan-glow);"></i> High-Growth Strategies
+        </div>
+
+        <div class="hero-logo-frame shimmer-edge">
+          <!-- STRICT LOGO PRESERVATION: Exact Original Image Asset -->
+          <img src="assets/sahil-official-logo.png" alt="SAHIL Official Eagle Logo">
+        </div>
+
+        <div class="floating-tech-badge badge-bottom">
+          <i class="fa-solid fa-shield-halved" style="color: var(--silver-light);"></i> Official Agency Identity
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ABOUT US SECTION
+       ========================================================================== -->
+  <section id="about" class="about-section">
+    <div class="container about-grid">
+      <div class="about-content">
+        <div class="section-tag">
+          <span class="dot"></span> Who We Are
+        </div>
+        <h2 class="about-headline">
+          WE ARE SAHIL. <br>
+          <span class="gradient-blue">WE CREATE DIGITAL IMPACT.</span>
+        </h2>
+        <p class="about-text">
+          SAHIL helps businesses establish their online presence, reach their target audience and grow through creative digital marketing strategies. In an era saturated with generic noise, we forge distinct brand identities and hyper-targeted conversion funnels that captivate minds and accelerate revenue.
+        </p>
+        <p class="about-text">
+          By combining high-caliber design aesthetics with mathematical advertising precision, we turn ambition into market leadership across every digital touchpoint.
+        </p>
+
+        <div class="about-features">
+          <div class="about-feature-box">
+            <i class="fa-solid fa-brain"></i>
+            <h4>Cognitive Strategy</h4>
+            <p>Architecting campaigns that align psychological intent with market demand.</p>
+          </div>
+          <div class="about-feature-box">
+            <i class="fa-solid fa-rocket"></i>
+            <h4>Velocity & Scale</h4>
+            <p>Rapid deployment of performance creative optimized for real-time ROI.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-interactive-card shimmer-edge">
+        <img src="assets/sahil-services-reference.png" alt="SAHIL Digital Marketing Agency Workspace and Services Overview">
+        <div class="card-overlay-badge">
+          <div>
+            <div style="font-weight: 700; color: #fff; font-size: 1rem;">SAHIL Workstation & Ecosystem</div>
+            <div style="font-size: 0.8rem; color: var(--silver-mid);">Omnichannel Marketing Mastery</div>
+          </div>
+          <span class="section-tag" style="margin-bottom: 0;">Verified Agency</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       OUR SERVICES SECTION (3D Gyroscopic Tilt Cards)
+       ========================================================================== -->
+  <section id="services" class="services-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">
+          <span class="dot"></span> Core Expertise
+        </div>
+        <h2>Engineered For <span class="gradient-text">Dominant Growth</span></h2>
+        <p>Our five foundational pillars designed to maximize brand reach, conversion velocity, and long-term customer equity.</p>
+      </div>
+
+      <div class="services-grid-wrapper">
+        <div class="services-row-top">
+          <!-- Service 1: Social Media Marketing -->
+          <div class="service-card shimmer-edge">
+            <div class="service-icon-box icon-smm">
+              <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <h3>1. Social Media Marketing</h3>
+            <p>Command audience attention across high-velocity platforms. We orchestrate viral organic content, influencer partnerships, and precision paid social funnels.</p>
+            <button class="service-btn open-service-modal" data-service="smm">
+              <span>Learn More</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+
+          <!-- Service 2: SEO -->
+          <div class="service-card shimmer-edge">
+            <div class="service-icon-box icon-seo">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <h3>2. SEO (Search Optimization)</h3>
+            <p>Dominate high-intent search queries. We engineer technical architectures, topical cluster strategies, and high-authority outreach to secure #1 rankings.</p>
+            <button class="service-btn open-service-modal" data-service="seo">
+              <span>Learn More</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+
+          <!-- Service 3: Google Ads -->
+          <div class="service-card shimmer-edge">
+            <div class="service-icon-box icon-gads">
+              <i class="fa-solid fa-shapes"></i>
+            </div>
+            <h3>3. Google Ads (PPC)</h3>
+            <p>Deploy capital with surgical precision. We maximize ROAS through hyper-targeted Search, Performance Max, Display, and dynamic YouTube remarketing campaigns.</p>
+            <button class="service-btn open-service-modal" data-service="gads">
+              <span>Learn More</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="services-row-bottom">
+          <!-- Service 4: Content Marketing -->
+          <div class="service-card shimmer-edge">
+            <div class="service-icon-box icon-content">
+              <i class="fa-solid fa-file-lines"></i>
+            </div>
+            <h3>4. Content Marketing</h3>
+            <p>Transform prospects into loyal brand advocates. We craft authoritative editorial guides, persuasive sales copy, and multimedia assets that build deep trust.</p>
+            <button class="service-btn open-service-modal" data-service="content">
+              <span>Learn More</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+
+          <!-- Service 5: Analytics & Performance Analysis -->
+          <div class="service-card shimmer-edge">
+            <div class="service-icon-box icon-analytics">
+              <i class="fa-solid fa-chart-simple"></i>
+            </div>
+            <h3>5. Analytics & Analysis</h3>
+            <p>Eliminate guesswork with full-funnel attribution, real-time BI dashboards, conversion rate telemetry, and actionable growth insights.</p>
+            <button class="service-btn open-service-modal" data-service="analytics">
+              <span>Learn More</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal for Service In-depth Details -->
+  <div class="modal-overlay" id="service-modal">
+    <div class="modal-card">
+      <button class="modal-close" id="modal-close" aria-label="Close details modal">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div id="modal-body-content"></div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       CREATIVE SHOWCASE (PORTFOLIO SECTION)
+       ========================================================================== -->
+  <section id="showcase" class="portfolio-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">
+          <span class="dot"></span> Innovation Gallery
+        </div>
+        <h2>Creative <span class="gradient-text">Showcase</span></h2>
+        <p>Explore concepts, campaign frameworks, and creative digital marketing executions developed by the SAHIL strategy lab.</p>
+      </div>
+
+      <div class="portfolio-filters">
+        <button class="filter-btn active" data-filter="all">All Showcase</button>
+        <button class="filter-btn" data-filter="social">Social Media Campaigns</button>
+        <button class="filter-btn" data-filter="web">Website Designs</button>
+        <button class="filter-btn" data-filter="ads">Advertising Creatives</button>
+        <button class="filter-btn" data-filter="branding">Branding</button>
+      </div>
+
+      <div class="portfolio-grid">
+        <div class="portfolio-item shimmer-edge" data-category="social">
+          <div class="portfolio-graphic">
+            <i class="fa-solid fa-cubes" style="font-size: 5rem; color: rgba(148, 163, 184, 0.25);"></i>
+            <span class="portfolio-badge">Social Media Concept</span>
+            <div class="portfolio-overlay">
+              <h4>Viral Metaverse Launch Campaign</h4>
+              <p>Short-form video rollout framework generating over 3.4M organic impressions across interactive channels.</p>
+              <div class="portfolio-tags">
+                <span>Instagram Reels</span>
+                <span>TikTok Ads</span>
+                <span>Influencer Sync</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-item shimmer-edge" data-category="web">
+          <div class="portfolio-graphic">
+            <i class="fa-solid fa-laptop-code" style="font-size: 5rem; color: rgba(226, 232, 240, 0.25);"></i>
+            <span class="portfolio-badge">Website Design Concept</span>
+            <div class="portfolio-overlay">
+              <h4>Fintech Cyber Platform Redesign</h4>
+              <p>Immersive WebGL interactive portal increasing average on-page dwell time by 240%.</p>
+              <div class="portfolio-tags">
+                <span>Three.js</span>
+                <span>UI/UX</span>
+                <span>Conversion Design</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-item shimmer-edge" data-category="ads">
+          <div class="portfolio-graphic">
+            <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 5rem; color: rgba(14, 165, 233, 0.25);"></i>
+            <span class="portfolio-badge">Advertising Creatives</span>
+            <div class="portfolio-overlay">
+              <h4>High-Velocity Omnichannel Ad Matrix</h4>
+              <p>Dynamic visual banner suits and A/B tested copy variations built for 5.2x ROAS scaling.</p>
+              <div class="portfolio-tags">
+                <span>Google Performance Max</span>
+                <span>Meta Ads</span>
+                <span>Retargeting</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-item shimmer-edge" data-category="branding">
+          <div class="portfolio-graphic">
+            <i class="fa-solid fa-feather-pointed" style="font-size: 5rem; color: rgba(255, 255, 255, 0.25);"></i>
+            <span class="portfolio-badge">Branding System</span>
+            <div class="portfolio-overlay">
+              <h4>Aero Lux Brand Identity Concept</h4>
+              <p>Modern aerodynamic visual identity guideline, luxury typography and iconography hierarchy.</p>
+              <div class="portfolio-tags">
+                <span>Brand Identity</span>
+                <span>Design System</span>
+                <span>Style Guide</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-item shimmer-edge" data-category="social">
+          <div class="portfolio-graphic">
+            <i class="fa-solid fa-chart-line" style="font-size: 5rem; color: rgba(14, 165, 233, 0.3);"></i>
+            <span class="portfolio-badge">Digital Marketing Campaign</span>
+            <div class="portfolio-overlay">
+              <h4>SaaS Inbound Growth Acceleration</h4>
+              <p>Multi-stage lead magnet funnel coupled with automated email nurturing sequences.</p>
+              <div class="portfolio-tags">
+                <span>Content Funnel</span>
+                <span>Lead Gen</span>
+                <span>GA4 Telemetry</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="portfolio-item shimmer-edge" data-category="web">
+          <div class="portfolio-graphic">
+            <i class="fa-solid fa-magnifying-glass-chart" style="font-size: 5rem; color: rgba(203, 213, 225, 0.25);"></i>
+            <span class="portfolio-badge">SEO Showcase</span>
+            <div class="portfolio-overlay">
+              <h4>Enterprise Search Cluster Architecture</h4>
+              <p>Comprehensive topic-pillar blueprint driving top 3 positions for 45+ enterprise search phrases.</p>
+              <div class="portfolio-tags">
+                <span>Topical Clusters</span>
+                <span>Core Web Vitals</span>
+                <span>AI Search SGE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       WHY CHOOSE US SECTION
+       ========================================================================== -->
+  <section id="why-us" class="why-us-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">
+          <span class="dot"></span> The Sahil Advantage
+        </div>
+        <h2>Why Partner With <span class="gradient-text">SAHIL</span>?</h2>
+        <p>We blend unbridled creative originality with scientific engineering to deliver results that compound over time.</p>
+      </div>
+
+      <div class="why-grid">
+        <div class="why-card shimmer-edge">
+          <div class="why-icon-wrap">
+            <i class="fa-solid fa-lightbulb"></i>
+          </div>
+          <h4>1. Creative Thinking</h4>
+          <p>We disrupt conventional templates with original, thumb-stopping concepts that elevate your brand far above competitors.</p>
+        </div>
+
+        <div class="why-card shimmer-edge">
+          <div class="why-icon-wrap">
+            <i class="fa-solid fa-chess-knight"></i>
+          </div>
+          <h4>2. Strategic Marketing</h4>
+          <p>Every tactic is anchored in a comprehensive roadmap designed to capture genuine customer intent and foster loyalty.</p>
+        </div>
+
+        <div class="why-card shimmer-edge">
+          <div class="why-icon-wrap">
+            <i class="fa-solid fa-microchip"></i>
+          </div>
+          <h4>3. Modern Technology</h4>
+          <p>Leveraging 3D WebGL interfaces, AI marketing automation, and next-generation speed optimization frameworks.</p>
+        </div>
+
+        <div class="why-card shimmer-edge">
+          <div class="why-icon-wrap">
+            <i class="fa-solid fa-chart-pie"></i>
+          </div>
+          <h4>4. Data-Driven Decisions</h4>
+          <p>Zero guesswork. We optimize budgets through live predictive telemetry, cohort attribution, and behavioral analytics.</p>
+        </div>
+
+        <div class="why-card shimmer-edge">
+          <div class="why-icon-wrap">
+            <i class="fa-solid fa-arrow-trend-up"></i>
+          </div>
+          <h4>5. Business Growth</h4>
+          <p>Our single North Star metric is sustainable, compounding pipeline revenue and tangible market equity for your business.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       CONTACT SECTION
+       ========================================================================== -->
+  <section id="contact" class="contact-section">
+    <div class="container">
+      <div class="contact-box shimmer-edge">
+        <div class="contact-grid">
+          <div class="contact-info">
+            <div class="section-tag">
+              <span class="dot"></span> Initiate Connection
+            </div>
+            <h2>LET'S BUILD SOMETHING <br><span class="gradient-text">GREAT TOGETHER.</span></h2>
+            <p>Ready to transcend ordinary marketing? Partner with SAHIL Digital Marketing to engineer high-velocity growth and an unforgettable brand presence.</p>
+
+            <div class="contact-detail-list">
+              <div class="contact-detail-item">
+                <div class="contact-icon">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div>
+                  <h5>Official Inquiries</h5>
+                  <p>contact@sahildigitalmarketing.com</p>
+                </div>
+              </div>
+
+              <div class="contact-detail-item">
+                <div class="contact-icon">
+                  <i class="fa-solid fa-phone"></i>
+                </div>
+                <div>
+                  <h5>Direct Agency Line</h5>
+                  <p>+91 (0) 98765 43210</p>
+                </div>
+              </div>
+
+              <div class="contact-detail-item">
+                <div class="contact-icon">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div>
+                  <h5>Global Operations</h5>
+                  <p>Mumbai &bull; Dubai &bull; London</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <form id="contact-form" class="contact-form">
+              <div id="form-status" class="form-status"></div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Your Name *</label>
+                  <input type="text" id="name" class="form-control" placeholder="e.g. Rahul Sharma" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email Address *</label>
+                  <input type="email" id="email" class="form-control" placeholder="rahul@company.com" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" class="form-control" placeholder="+91 98765 00000">
+              </div>
+
+              <div class="form-group">
+                <label for="message">How can we help your business grow? *</label>
+                <textarea id="message" class="form-control" placeholder="Tell us about your brand, current targets, and required services (SEO, Social, Google Ads, etc.)..." required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-glow" style="width: 100%; padding: 1.1rem;">
+                <span>Send Strategy Brief</span>
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#hero" aria-label="SAHIL Digital Marketing Home">
+            <img src="assets/sahil-official-logo.png" alt="SAHIL Digital Marketing Official Brand Logo" class="footer-logo-img">
+          </a>
+          <p>
+            Think Beyond Limits. Grow Beyond Expectations. SAHIL is a premium digital agency delivering visionary creative design, performance advertising, and algorithmic growth architecture.
+          </p>
+          <div class="footer-socials">
+            <a href="#" class="social-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" class="social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="social-link" aria-label="Twitter / X"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" class="social-link" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul class="footer-links">
+            <li><a href="#hero"><i class="fa-solid fa-angle-right"></i> Home</a></li>
+            <li><a href="#about"><i class="fa-solid fa-angle-right"></i> About Us</a></li>
+            <li><a href="#services"><i class="fa-solid fa-angle-right"></i> Services</a></li>
+            <li><a href="#showcase"><i class="fa-solid fa-angle-right"></i> Showcase</a></li>
+            <li><a href="#why-us"><i class="fa-solid fa-angle-right"></i> Why Choose Us</a></li>
+            <li><a href="#contact"><i class="fa-solid fa-angle-right"></i> Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Our Services</h4>
+          <ul class="footer-links">
+            <li><a href="#services"><i class="fa-solid fa-angle-right"></i> Social Media Marketing</a></li>
+            <li><a href="#services"><i class="fa-solid fa-angle-right"></i> SEO Optimization</a></li>
+            <li><a href="#services"><i class="fa-solid fa-angle-right"></i> Google Ads & PPC</a></li>
+            <li><a href="#services"><i class="fa-solid fa-angle-right"></i> Content Marketing</a></li>
+            <li><a href="#services"><i class="fa-solid fa-angle-right"></i> Performance Analytics</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Agency Office</h4>
+          <p style="color: var(--silver-dark); font-size: 0.9rem; line-height: 1.7; margin-bottom: 1rem;">
+            Innovation Tower, Cyber Heights,<br>
+            Tech Zone, Bandra Kurla Complex,<br>
+            Mumbai, India
+          </p>
+          <div style="font-size: 0.88rem; color: var(--silver-mid);">
+            <i class="fa-solid fa-clock"></i> Mon – Sat: 9:00 AM – 7:00 PM IST
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; 2026 SAHIL DIGITAL MARKETING. All Rights Reserved.
+        </div>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="#" style="color: var(--silver-dark); text-decoration: none;">Privacy Policy</a>
+          <a href="#" style="color: var(--silver-dark); text-decoration: none;">Terms of Service</a>
+          <a href="#" style="color: var(--silver-dark); text-decoration: none;">Security Architecture</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Three.js 3D Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GSAP Animation Core + ScrollTrigger for Motion Graphics -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Interactive JavaScript Engine -->
+  <script src="main.js"></script>
+</body>
+</html>
