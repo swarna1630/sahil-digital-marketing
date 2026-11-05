@@ -263,19 +263,6 @@ function initMotionGraphics() {
       ease: 'power3.out'
     });
 
-    // Why Choose Us Stagger
-    gsap.from('.why-card', {
-      scrollTrigger: {
-        trigger: '.why-us-section',
-        start: 'top 80%',
-      },
-      opacity: 0,
-      y: 50,
-      stagger: 0.12,
-      duration: 0.9,
-      ease: 'power3.out'
-    });
-
     // Portfolio Items Reveal
     gsap.from('.portfolio-item', {
       scrollTrigger: {
