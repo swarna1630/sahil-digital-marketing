@@ -9,22 +9,23 @@
 
 // 1. THREE.JS 3D SCENE & AMBIENT MOTION GRAPHICS
 (function init3DScene() {
-  const canvas = document.getElementById('webgl-canvas');
-  if (!canvas || typeof THREE === 'undefined') return;
+  const bgCanvas = document.getElementById('webgl-canvas');
+  if (!bgCanvas || typeof THREE === 'undefined') return;
 
+  // --- Background Ambient Space Scene ---
   const scene = new THREE.Scene();
-  scene.fog = new THREE.FogExp2(0x020614, 0.0011);
+  scene.fog = new THREE.FogExp2(0x020614, 0.0009);
 
   const camera = new THREE.PerspectiveCamera(
     60,
     window.innerWidth / window.innerHeight,
     0.1,
-    2000
+    2500
   );
-  camera.position.z = 850;
+  camera.position.z = 900;
 
   const renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
+    canvas: bgCanvas,
     alpha: true,
     antialias: true,
     powerPreference: 'high-performance'
@@ -32,39 +33,43 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-  // Lighting System: Metallic Silver & Electric Blue
-  const ambientLight = new THREE.AmbientLight(0x0a1936, 1.3);
+  // Lighting System: Metallic Silver, Electric Blue & Cyber Cyan
+  const ambientLight = new THREE.AmbientLight(0x0c1b3d, 1.8);
   scene.add(ambientLight);
 
-  const keyLight = new THREE.DirectionalLight(0xe2e8f0, 1.9);
-  keyLight.position.set(200, 400, 500);
+  const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
+  keyLight.position.set(400, 600, 500);
   scene.add(keyLight);
 
-  const fillBlueLight = new THREE.DirectionalLight(0x0ea5e9, 1.4);
-  fillBlueLight.position.set(-300, -200, 300);
-  scene.add(fillBlueLight);
+  const fillCyanLight = new THREE.DirectionalLight(0x00d9ff, 2.0);
+  fillCyanLight.position.set(-400, -300, 400);
+  scene.add(fillCyanLight);
 
-  // 2,400 Blue & Silver Glowing Particles
-  const particleCount = 2400;
+  const pointBlue = new THREE.PointLight(0x008cff, 3.5, 1200);
+  pointBlue.position.set(200, 100, 200);
+  scene.add(pointBlue);
+
+  // 3,000 Glowing Cyber & Silver Star Particles
+  const particleCount = 3000;
   const geometry = new THREE.BufferGeometry();
   const positions = new Float32Array(particleCount * 3);
   const colors = new Float32Array(particleCount * 3);
 
-  const silverWhite = new THREE.Color(0xf8fafc);
-  const chromeGrey = new THREE.Color(0x94a3b8);
-  const electricBlue = new THREE.Color(0x0ea5e9);
-  const iceBlue = new THREE.Color(0x38bdf8);
+  const colPureWhite = new THREE.Color(0xffffff);
+  const colCyan = new THREE.Color(0x00d9ff);
+  const colBlue = new THREE.Color(0x008cff);
+  const colSilver = new THREE.Color(0xcbd5e1);
 
   for (let i = 0; i < particleCount; i++) {
-    positions[i * 3] = (Math.random() - 0.5) * 2600;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 2200;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 1900;
+    positions[i * 3] = (Math.random() - 0.5) * 2800;
+    positions[i * 3 + 1] = (Math.random() - 0.5) * 2400;
+    positions[i * 3 + 2] = (Math.random() - 0.5) * 2200;
 
     const r = Math.random();
-    let c = silverWhite;
-    if (r > 0.70) c = electricBlue;
-    else if (r > 0.45) c = iceBlue;
-    else if (r > 0.25) c = chromeGrey;
+    let c = colCyan;
+    if (r > 0.65) c = colPureWhite;
+    else if (r > 0.40) c = colBlue;
+    else if (r > 0.20) c = colSilver;
 
     colors[i * 3] = c.r;
     colors[i * 3 + 1] = c.g;
@@ -81,8 +86,8 @@
     const ctx = pCanvas.getContext('2d');
     const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
     gradient.addColorStop(0, 'rgba(255,255,255,1)');
-    gradient.addColorStop(0.25, 'rgba(226,232,240,0.85)');
-    gradient.addColorStop(0.55, 'rgba(14,165,233,0.35)');
+    gradient.addColorStop(0.2, 'rgba(0,217,255,0.9)');
+    gradient.addColorStop(0.55, 'rgba(0,140,255,0.3)');
     gradient.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 64, 64);
@@ -92,11 +97,11 @@
   }
 
   const particleMaterial = new THREE.PointsMaterial({
-    size: 5.5,
+    size: 6.5,
     vertexColors: true,
     map: createParticleTexture(),
     transparent: true,
-    opacity: 0.85,
+    opacity: 0.88,
     blending: THREE.AdditiveBlending,
     depthWrite: false
   });
@@ -104,48 +109,19 @@
   const particleSystem = new THREE.Points(geometry, particleMaterial);
   scene.add(particleSystem);
 
-  // Metallic Chrome 3D Geometric Group
-  const metallicGroup = new THREE.Group();
-
-  const ringGeo1 = new THREE.TorusGeometry(320, 1.4, 20, 120);
-  const chromeMat1 = new THREE.MeshStandardMaterial({
-    color: 0xcbd5e1,
-    metalness: 0.92,
-    roughness: 0.18,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.35
-  });
-  const torus1 = new THREE.Mesh(ringGeo1, chromeMat1);
-  metallicGroup.add(torus1);
-
-  const ringGeo2 = new THREE.TorusGeometry(250, 1.0, 16, 100);
-  const chromeMat2 = new THREE.MeshStandardMaterial({
-    color: 0x94a3b8,
-    metalness: 0.95,
-    roughness: 0.22,
-    wireframe: true,
-    transparent: true,
-    opacity: 0.28
-  });
-  const torus2 = new THREE.Mesh(ringGeo2, chromeMat2);
-  torus2.rotation.x = Math.PI / 3;
-  metallicGroup.add(torus2);
-
-  const icoGeo = new THREE.IcosahedronGeometry(180, 1);
-  const icoMat = new THREE.MeshStandardMaterial({
-    color: 0xe2e8f0,
+  // Background Cyber Constellation Mesh
+  const polyGeo = new THREE.IcosahedronGeometry(480, 2);
+  const polyMat = new THREE.MeshStandardMaterial({
+    color: 0x00d9ff,
     metalness: 0.9,
-    roughness: 0.25,
+    roughness: 0.1,
     wireframe: true,
     transparent: true,
-    opacity: 0.18
+    opacity: 0.12
   });
-  const icosahedron = new THREE.Mesh(icoGeo, icoMat);
-  metallicGroup.add(icosahedron);
-
-  metallicGroup.position.set(380, 40, -100);
-  scene.add(metallicGroup);
+  const bgSphere = new THREE.Mesh(polyGeo, polyMat);
+  bgSphere.position.set(-350, -100, -300);
+  scene.add(bgSphere);
 
   // Mouse Follow & Parallax
   let mouseX = 0;
@@ -173,35 +149,138 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   });
 
-  let clock = new THREE.Clock();
+  // --- Dedicated Hero 3D Holographic Orbit Canvas ---
+  const heroCanvas = document.getElementById('hero-3d-canvas');
+  let heroRenderer, heroScene, heroCamera, heroOrbitGroup, heroTorusA, heroTorusB, heroTorusC, heroCoreMesh;
+
+  if (heroCanvas) {
+    heroScene = new THREE.Scene();
+    heroCamera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+    heroCamera.position.z = 480;
+
+    heroRenderer = new THREE.WebGLRenderer({
+      canvas: heroCanvas,
+      alpha: true,
+      antialias: true
+    });
+    heroRenderer.setSize(520, 520);
+    heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const hLight1 = new THREE.AmbientLight(0xffffff, 1.6);
+    heroScene.add(hLight1);
+
+    const hLight2 = new THREE.PointLight(0x00d9ff, 3.5, 600);
+    hLight2.position.set(100, 150, 200);
+    heroScene.add(hLight2);
+
+    heroOrbitGroup = new THREE.Group();
+
+    // Metallic Outer Torus (Electric Blue / Cyan)
+    const tGeoA = new THREE.TorusGeometry(175, 2.2, 16, 100);
+    const tMatA = new THREE.MeshStandardMaterial({
+      color: 0x00d9ff,
+      metalness: 0.95,
+      roughness: 0.15,
+      emissive: 0x008cff,
+      emissiveIntensity: 0.35,
+      wireframe: true
+    });
+    heroTorusA = new THREE.Mesh(tGeoA, tMatA);
+    heroOrbitGroup.add(heroTorusA);
+
+    // Diagonal Metallic Gyro Ring
+    const tGeoB = new THREE.TorusGeometry(140, 1.8, 16, 80);
+    const tMatB = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      metalness: 0.9,
+      roughness: 0.2,
+      emissive: 0x00d9ff,
+      emissiveIntensity: 0.25
+    });
+    heroTorusB = new THREE.Mesh(tGeoB, tMatB);
+    heroTorusB.rotation.x = Math.PI / 3;
+    heroOrbitGroup.add(heroTorusB);
+
+    // Inner Fast Gyroscope Ring
+    const tGeoC = new THREE.TorusGeometry(110, 1.5, 12, 60);
+    const tMatC = new THREE.MeshStandardMaterial({
+      color: 0x008cff,
+      metalness: 0.95,
+      roughness: 0.1,
+      wireframe: true
+    });
+    heroTorusC = new THREE.Mesh(tGeoC, tMatC);
+    heroTorusC.rotation.y = Math.PI / 4;
+    heroOrbitGroup.add(heroTorusC);
+
+    // Holographic Core Wireframe Crystal
+    const coreGeo = new THREE.IcosahedronGeometry(75, 1);
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: 0x00d9ff,
+      metalness: 0.85,
+      roughness: 0.2,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.45
+    });
+    heroCoreMesh = new THREE.Mesh(coreGeo, coreMat);
+    heroOrbitGroup.add(heroCoreMesh);
+
+    // Small Orbiting Satellite Spheres
+    const satGeo = new THREE.SphereGeometry(6, 16, 16);
+    const satMat = new THREE.MeshStandardMaterial({
+      color: 0xffffff,
+      emissive: 0x00d9ff,
+      emissiveIntensity: 0.8
+    });
+    for (let k = 0; k < 4; k++) {
+      const sat = new THREE.Mesh(satGeo, satMat);
+      const angle = (k / 4) * Math.PI * 2;
+      sat.position.set(Math.cos(angle) * 175, Math.sin(angle) * 175, 0);
+      heroTorusA.add(sat);
+    }
+
+    heroScene.add(heroOrbitGroup);
+  }
+
+  const clock = new THREE.Clock();
 
   function animate() {
     requestAnimationFrame(animate);
-
     const elapsedTime = clock.getElapsedTime();
 
-    targetX = mouseX * 0.22;
-    targetY = mouseY * 0.22;
+    // Camera inertia
+    targetX = mouseX * 0.25;
+    targetY = mouseY * 0.25;
     camera.position.x += (targetX - camera.position.x) * 0.05;
     camera.position.y += (-targetY - camera.position.y) * 0.05;
     camera.lookAt(scene.position);
 
-    particleSystem.rotation.y = elapsedTime * 0.032;
-    particleSystem.rotation.x = elapsedTime * 0.014;
-
-    metallicGroup.rotation.x = elapsedTime * 0.1;
-    metallicGroup.rotation.y = elapsedTime * 0.15;
-    metallicGroup.rotation.z = Math.sin(elapsedTime * 0.18) * 0.18;
-
-    torus1.rotation.z = elapsedTime * 0.09;
-    torus2.rotation.y = -elapsedTime * 0.13;
-    icosahedron.rotation.x = elapsedTime * 0.16;
-
-    const scrollY = window.scrollY || window.pageYOffset;
-    metallicGroup.position.y = 40 - (scrollY * 0.24);
-    metallicGroup.position.x = 380 - (scrollY * 0.09);
+    // Global background rotation
+    particleSystem.rotation.y = elapsedTime * 0.028;
+    particleSystem.rotation.x = elapsedTime * 0.012;
+    bgSphere.rotation.x = elapsedTime * 0.04;
+    bgSphere.rotation.y = elapsedTime * 0.06;
 
     renderer.render(scene, camera);
+
+    // Hero 3D interactive holographic animation
+    if (heroRenderer && heroOrbitGroup) {
+      heroOrbitGroup.rotation.y = elapsedTime * 0.45 + (mouseX * 0.001);
+      heroOrbitGroup.rotation.x = Math.sin(elapsedTime * 0.35) * 0.25 + (mouseY * 0.001);
+
+      heroTorusA.rotation.z = elapsedTime * 0.3;
+      heroTorusB.rotation.x = elapsedTime * 0.4;
+      heroTorusB.rotation.y = -elapsedTime * 0.25;
+      heroTorusC.rotation.z = -elapsedTime * 0.5;
+
+      heroCoreMesh.rotation.y = -elapsedTime * 0.6;
+      heroCoreMesh.rotation.x = elapsedTime * 0.3;
+      const coreScale = 1 + Math.sin(elapsedTime * 2.5) * 0.08;
+      heroCoreMesh.scale.set(coreScale, coreScale, coreScale);
+
+      heroRenderer.render(heroScene, heroCamera);
+    }
   }
 
   animate();
