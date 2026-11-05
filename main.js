@@ -449,32 +449,163 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Portfolio filters
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const portfolioItems = document.querySelectorAll('.portfolio-item');
+  // ==========================================================================
+  // FIELD NOTES / INSIGHTS DATA (From Reference tiiny.site)
+  // ==========================================================================
+  const POSTS = [
+    {
+      c: "Social Media",
+      date: "01 / BRAND COMMUNITY",
+      read: "4 MIN READ",
+      t: "Your audience is not a number. It is a community.",
+      x: "Turn passive followers into people who recognise, trust and choose your brand.",
+      kind: "social",
+      label: "CONNECTION OVER CONTENT",
+      body: "Strong social media is not about posting every day just to stay visible. It is about giving the right people a reason to care. Start with a clear point of view, create repeatable content themes, respond like a human and use saves, shares, meaningful replies and enquiries to understand what is resonating. Build a community before chasing a bigger number."
+    },
+    {
+      c: "SEO",
+      date: "02 / SEARCH STRATEGY",
+      read: "5 MIN READ",
+      t: "Search visibility starts before the first click.",
+      x: "A useful SEO foundation connects search intent, helpful pages and a clear user journey.",
+      kind: "seo",
+      label: "BE THE RIGHT ANSWER",
+      body: "SEO works best when you understand what a person is trying to solve. Group keywords by intent, make each important page answer one clear need, improve page speed and internal links, and publish genuinely useful information. Rankings matter, but the real goal is to help the right visitor take the next step."
+    },
+    {
+      c: "Google Ads",
+      date: "03 / PAID PERFORMANCE",
+      read: "3 MIN READ",
+      t: "Clicks are easy. The right conversions take a plan.",
+      x: "Make every campaign decision connect to the outcome your business actually needs.",
+      kind: "ads",
+      label: "MAKE EVERY CLICK COUNT",
+      body: "Before increasing ad spend, check the foundations: a specific audience, focused keywords, compelling creative, a relevant landing page and conversion tracking that works. Review search terms regularly and separate high-intent traffic from curiosity clicks. Optimise towards qualified enquiries or sales—not clicks alone."
+    },
+    {
+      c: "Content",
+      date: "04 / CREATIVE THINKING",
+      read: "4 MIN READ",
+      t: "A good content strategy gives every story a job.",
+      x: "Create a consistent voice across reels, blogs, campaigns and everyday conversations.",
+      kind: "content",
+      label: "STORIES WITH PURPOSE",
+      body: "Useful content should educate, build trust or help someone make a decision. Choose a few content pillars, adapt the message to each platform and keep the brand voice recognisable. A single strong idea can become a short video, carousel, blog article and email—without simply copying the same format everywhere."
+    },
+    {
+      c: "Analysis",
+      date: "05 / DATA & DECISIONS",
+      read: "4 MIN READ",
+      t: "Measure what moves the business—not just what looks good.",
+      x: "Turn campaign reports into clear decisions, sharper experiments and better next steps.",
+      kind: "analysis",
+      label: "INSIGHT INTO ACTION",
+      body: "A useful report connects activity to outcomes. Look beyond reach and impressions: examine qualified leads, conversion rate, cost per acquisition, return on ad spend and the journey between them. Compare performance over time, note what changed and choose one practical experiment for the next cycle. Data is valuable when it changes a decision."
+    }
+  ];
 
+  function getInsightArtIcon(kind) {
+    switch (kind) {
+      case 'social': return '<i class="fa-solid fa-users" style="font-size: 3rem; color: var(--cyan-glow);"></i>';
+      case 'seo': return '<i class="fa-solid fa-magnifying-glass-chart" style="font-size: 3rem; color: var(--electric-blue);"></i>';
+      case 'ads': return '<i class="fa-solid fa-bullseye" style="font-size: 3rem; color: var(--cyan-glow);"></i>';
+      case 'content': return '<i class="fa-solid fa-feather-pointed" style="font-size: 3rem; color: var(--silver-light);"></i>';
+      case 'analysis': return '<i class="fa-solid fa-chart-line" style="font-size: 3rem; color: var(--cyan-glow);"></i>';
+      default: return '<i class="fa-solid fa-lightbulb" style="font-size: 3rem; color: var(--cyan-glow);"></i>';
+    }
+  }
+
+  const insightsGrid = document.getElementById('insights-grid');
+  function renderInsights(filter) {
+    if (!insightsGrid) return;
+    const list = POSTS.map((p, i) => ({ p, i })).filter(item => filter === 'all' || item.p.c === filter);
+
+    insightsGrid.innerHTML = list.map(item => {
+      const p = item.p;
+      return `
+        <article class="insight-card shimmer-edge">
+          <div class="insight-art" aria-hidden="true">
+            <span class="art-index">FIELD NOTE / 0${item.i + 1}</span>
+            <div style="display:flex; align-items:center; justify-content:center; width: 100%; height: 100%;">
+              ${getInsightArtIcon(p.kind)}
+            </div>
+            <span class="art-label">${p.label}</span>
+            <span class="art-corner">SAHIL&reg; / JOURNAL</span>
+          </div>
+          <div class="insight-card-copy">
+            <div class="insight-meta">
+              <span><i class="fa-solid fa-circle" style="font-size: 0.45rem; margin-right: 6px;"></i>${p.c}</span>
+              <span>${p.read}</span>
+            </div>
+            <small class="insight-date">${p.date}</small>
+            <h3>${p.t}</h3>
+            <p>${p.x}</p>
+            <button class="insight-read" type="button" data-post="${item.i}">
+              <span>EXPLORE THE IDEA</span>
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </button>
+          </div>
+          <span class="insight-card-number">0${item.i + 1}</span>
+        </article>
+      `;
+    }).join('');
+
+    // Attach click listeners to "EXPLORE THE IDEA" buttons
+    document.querySelectorAll('.insight-read').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const postIndex = Number(btn.getAttribute('data-post'));
+        const postData = POSTS[postIndex];
+        if (!postData) return;
+
+        const modal = document.getElementById('insight-modal');
+        document.getElementById('modal-topic').textContent = `${postData.c}  /  ${postData.read}`;
+        document.getElementById('modal-title').textContent = postData.t;
+        document.getElementById('modal-summary').textContent = postData.x;
+        document.getElementById('modal-body').textContent = postData.body;
+
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+  }
+
+  renderInsights('all');
+
+  // Filter Buttons
+  const filterBtns = document.querySelectorAll('.insight-filter');
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const filter = btn.getAttribute('data-filter');
-
-      portfolioItems.forEach(item => {
-        if (filter === 'all' || item.getAttribute('data-category') === filter) {
-          item.style.display = 'block';
-          setTimeout(() => {
-            item.style.opacity = '1';
-            item.style.transform = 'translateY(0)';
-          }, 50);
-        } else {
-          item.style.opacity = '0';
-          item.style.transform = 'translateY(20px)';
-          setTimeout(() => {
-            item.style.display = 'none';
-          }, 300);
-        }
-      });
+      renderInsights(filter);
     });
+  });
+
+  // Modal close handlers
+  const insightModal = document.getElementById('insight-modal');
+  const insightModalClose = document.getElementById('insight-modal-close');
+  const insightBackdrop = document.getElementById('insight-modal-backdrop');
+  const modalCtaBtn = document.getElementById('modal-cta-btn');
+
+  function closeInsightModal() {
+    if (!insightModal) return;
+    insightModal.classList.remove('open');
+    insightModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (insightModalClose) insightModalClose.addEventListener('click', closeInsightModal);
+  if (insightBackdrop) insightBackdrop.addEventListener('click', closeInsightModal);
+  if (modalCtaBtn) modalCtaBtn.addEventListener('click', closeInsightModal);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && insightModal && insightModal.classList.contains('open')) {
+      closeInsightModal();
+    }
   });
 
   // Contact form
