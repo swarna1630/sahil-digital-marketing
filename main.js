@@ -245,7 +245,7 @@ function initMotionGraphics() {
   gsap.from('.hero-title', { opacity: 0, y: 40, duration: 1.1, delay: 0.2, ease: 'power4.out' });
   gsap.from('.hero-desc', { opacity: 0, y: 30, duration: 1, delay: 0.4, ease: 'power3.out' });
   gsap.from('.hero-buttons .btn', { opacity: 0, y: 30, duration: 0.9, delay: 0.6, stagger: 0.15, ease: 'back.out(1.7)' });
-  gsap.from('.hero-metrics .metric-item', { opacity: 0, scale: 0.8, duration: 0.8, delay: 0.8, stagger: 0.2, ease: 'power2.out' });
+  gsap.from('.hero-value-badges .value-badge-item', { opacity: 0, y: 20, duration: 0.8, delay: 0.8, stagger: 0.15, ease: 'power2.out' });
   gsap.from('.hero-visual-card', { opacity: 0, scale: 0.85, duration: 1.3, delay: 0.3, ease: 'power3.out' });
 
   // ScrollTrigger Animations for Sections
@@ -290,33 +290,7 @@ function initMotionGraphics() {
     });
   }
 
-  // Kinetic Metric Counter Animation
-  const counters = document.querySelectorAll('.metric-number');
-  counters.forEach(counter => {
-    const text = counter.innerText;
-    if (text.includes('%')) {
-      const val = parseInt(text);
-      gsap.from({ val: 0 }, {
-        val: val,
-        duration: 2.2,
-        delay: 0.8,
-        ease: 'power2.out',
-        onUpdate: function() {
-          counter.innerText = Math.floor(this.targets()[0].val) + '%';
-        }
-      });
-    } else if (text.includes('x')) {
-      gsap.from({ val: 1.0 }, {
-        val: 4.8,
-        duration: 2.4,
-        delay: 0.9,
-        ease: 'power2.out',
-        onUpdate: function() {
-          counter.innerText = this.targets()[0].val.toFixed(1) + 'x';
-        }
-      });
-    }
-  });
+  // Motion graphics setup complete
 }
 
 // 4. UI INTERACTIONS & MODALS
@@ -368,68 +342,68 @@ document.addEventListener('DOMContentLoaded', () => {
   const serviceDetails = {
     smm: {
       title: "Social Media Marketing",
-      subtitle: "Omnichannel brand engagement, viral storytelling & paid social scale",
+      subtitle: "Omnichannel brand engagement, creative storytelling & targeted outreach",
       icon: "fa-bullhorn",
-      desc: "Our social media strategies combine algorithmic precision with cinematic creative direction. We manage, grow, and optimize brand footprints across Instagram, LinkedIn, YouTube, X, and Facebook.",
+      desc: "Our social media strategies combine strategic planning with creative direction. We manage, grow, and optimize brand presence across Instagram, LinkedIn, YouTube, X, and Facebook.",
       points: [
-        "Tailored high-converting creative ad funnels & video reels",
-        "Targeted audience segmentation and demographic clustering",
-        "Influencer partnerships and brand ambassador acceleration",
-        "Community management with 24/7 proactive sentiment monitoring"
+        "Tailored creative content and video reels aligned with your brand",
+        "Targeted audience segmentation and demographic focus",
+        "Influencer partnerships and community outreach",
+        "Proactive page management and active engagement monitoring"
       ],
-      metric: "+320% Average Audience Engagement Surge"
+      deliverable: "Custom Content Calendar & Monthly Growth Reports"
     },
     seo: {
       title: "SEO (Search Engine Optimization)",
-      subtitle: "Dominating organic search results and AI discovery indices",
+      subtitle: "Building long-term organic search presence and keyword visibility",
       icon: "fa-magnifying-glass",
-      desc: "We engineer SEO frameworks built for Google algorithms and Generative Search Engines (SGE). Our technical, content, and backlink architectures ensure you secure permanent top positions.",
+      desc: "We build structured SEO foundations for search engines and modern discovery algorithms. Our technical, on-page, and content structure helps your business get found by customers searching for your services.",
       points: [
-        "Core Web Vitals acceleration & technical SEO architectural audit",
-        "Intent-driven high-converting commercial keyword targeting",
-        "Topical authority building through comprehensive content clusters",
-        "High-domain authority authoritative editorial backlink outreach"
+        "Technical site audit and Core Web Vitals performance review",
+        "Intent-driven commercial keyword research and placement",
+        "Topical content structuring for improved search indexing",
+        "High-quality local and industry-relevant backlink development"
       ],
-      metric: "#1 Rankings for high-intent competitive keywords"
+      deliverable: "On-Page Optimization & Ranking Progress Tracking"
     },
     gads: {
-      title: "Google Ads & PPC Performance",
-      subtitle: "Maximum return on ad spend (ROAS) via high-precision bidding",
+      title: "Google Ads & PPC Campaigns",
+      subtitle: "Targeted advertising engineered to reach high-intent customers",
       icon: "fa-shapes",
-      desc: "Every advertising dollar yields verifiable growth. We formulate surgical Search, Performance Max, Display, and YouTube remarketing funnels with real-time bidding optimization.",
+      desc: "Every advertising campaign is built with deliberate targeting. We design Search, Display, and Performance campaigns focused on connecting with prospects ready to engage with your business.",
       points: [
-        "Advanced intent match structures & continuous negative keyword pruning",
-        "Dynamic remarketing loops targeting high-value abandoners",
-        "High-converting landing page optimization and CRO integration",
-        "Transparent multi-touch attribution dashboards"
+        "Keyword research, search intent matching, and negative keyword optimization",
+        "Targeted remarketing campaigns to re-engage interested visitors",
+        "Ad copy creation and dedicated landing page alignment",
+        "Clear tracking dashboards for conversion monitoring"
       ],
-      metric: "4.8x Average Return on Ad Spend (ROAS)"
+      deliverable: "Full Campaign Setup, Ad Copy & Live Analytics Dashboard"
     },
     content: {
       title: "Content Marketing",
-      subtitle: "Engaging editorial, visual storytelling and brand conversion copy",
+      subtitle: "Informative articles, engaging copy, and digital brand collateral",
       icon: "fa-file-lines",
-      desc: "Content is the bedrock of credibility. We produce authoritative industry thought-leadership pieces, interactive visual guides, compelling copywriting, and brand narratives that capture mindshare.",
+      desc: "Good content creates credibility. We produce clear, engaging copywriting, visual guides, and brand narratives that clearly explain your offerings and build customer trust.",
       points: [
-        "Brand tone-of-voice design and narrative styleguides",
-        "Long-form SEO pillar guides, case studies and whitepapers",
-        "Email marketing sequences and high-converting automation workflows",
-        "Creative copywriting for digital ads and high-converting landing pages"
+        "Brand tone-of-voice alignment and messaging guidelines",
+        "Informative articles, service overviews, and product explainers",
+        "Email newsletters and client communication sequences",
+        "Persuasive copy for digital ads and landing pages"
       ],
-      metric: "+180% Organic Inbound Lead Generation"
+      deliverable: "Professional Brand Copywriting & Content Assets"
     },
     analytics: {
-      title: "Analytics & Performance Analysis",
-      subtitle: "Transforming raw user metrics into decisive growth strategies",
+      title: "Analytics & Performance Reporting",
+      subtitle: "Clear visibility into website visitors and marketing performance",
       icon: "fa-chart-simple",
-      desc: "Growth without data is mere guesswork. We implement enterprise tracking frameworks (GA4, server-side tagging, custom BI dashboards) to track full-funnel customer journeys and lifetime value.",
+      desc: "Marketing decisions should be backed by clear insights. We set up Google Analytics (GA4) and transparent reports so you always know where your visitors come from and how they interact with your brand.",
       points: [
-        "GA4 custom event instrumentation & server-side Tag Manager setup",
-        "Full-funnel conversion attribution and revenue cohort analytics",
-        "Predictive customer churn and lifetime value (LTV) modelling",
-        "Live interactive executive KPI dashboards with automated alerts"
+        "Google Analytics 4 (GA4) and Google Tag Manager installation",
+        "Lead generation and goal completion event tracking",
+        "Traffic source attribution to understand which channels work best",
+        "Easy-to-read executive performance summaries"
       ],
-      metric: "100% Data-driven visibility across marketing channels"
+      deliverable: "Clean Analytics Configuration & Scheduled Reports"
     }
   };
 
@@ -462,11 +436,11 @@ document.addEventListener('DOMContentLoaded', () => {
           </ul>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(14,165,233,0.08); border: 1px dashed rgba(148,163,184,0.3); padding: 1rem 1.4rem; border-radius: 12px;">
-          <span style="font-size: 0.85rem; color: var(--silver-grey);">Proven Impact Metric:</span>
-          <span style="font-weight: 700; color: #fff; font-size: 0.95rem;">${data.metric}</span>
+          <span style="font-size: 0.85rem; color: var(--silver-grey);">Included Deliverables:</span>
+          <span style="font-weight: 700; color: #fff; font-size: 0.95rem;">${data.deliverable}</span>
         </div>
         <div style="margin-top: 2rem; display: flex; justify-content: flex-end; gap: 1rem;">
-          <a href="#contact" onclick="document.getElementById('service-modal').classList.remove('active')" class="btn btn-primary btn-glow">Request Strategy Session</a>
+          <a href="#contact" onclick="document.getElementById('service-modal').classList.remove('active')" class="btn btn-primary btn-glow">Get a Proposal</a>
         </div>
       `;
 

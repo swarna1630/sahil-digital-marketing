@@ -443,31 +443,36 @@ section {
   display: flex;
   gap: 1.25rem;
   flex-wrap: wrap;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 
-.hero-metrics {
+.hero-value-badges {
   display: flex;
-  gap: 2.5rem;
+  gap: 1.5rem;
+  flex-wrap: wrap;
   border-top: 1px solid rgba(148, 163, 184, 0.12);
-  padding-top: 2rem;
+  padding-top: 1.75rem;
 }
 
-.metric-item .metric-number {
-  font-family: var(--font-heading);
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: #ffffff;
-  line-height: 1;
-  margin-bottom: 0.3rem;
-  text-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
-}
-
-.metric-item .metric-label {
+.value-badge-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(6, 16, 42, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  padding: 0.55rem 1rem;
+  border-radius: 50px;
   font-size: 0.85rem;
-  color: var(--silver-dark);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  font-weight: 600;
+  color: var(--silver-light);
+  letter-spacing: 0.02em;
+  transition: var(--transition-smooth);
+}
+
+.value-badge-item:hover {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: var(--cyan-glow);
+  transform: translateY(-2px);
 }
 
 /* 3D Motion Interactive Card with Floating Badges */
@@ -614,9 +619,9 @@ section {
 }
 
 /* ==========================================================================
-   ABOUT SECTION: MODERN TELEMETRY HUB (POSTER REMOVED)
+   ABOUT SECTION: MODERN STARTUP CAPABILITIES HUB (CONTENT FOCUSED)
    ========================================================================== */
-.about-metrics-hub {
+.about-capabilities-hub {
   background: linear-gradient(145deg, rgba(6, 18, 48, 0.82) 0%, rgba(2, 8, 24, 0.92) 100%);
   border: 1px solid rgba(148, 163, 184, 0.3);
   border-radius: 24px;
@@ -630,7 +635,7 @@ section {
   transition: transform 0.4s ease, border-color 0.3s ease;
 }
 
-.about-metrics-hub:hover {
+.about-capabilities-hub:hover {
   transform: translateY(-6px);
   border-color: rgba(226, 232, 240, 0.55);
   box-shadow: 0 30px 70px rgba(0, 0, 0, 0.8), 0 0 30px rgba(14, 165, 233, 0.2);
@@ -651,7 +656,7 @@ section {
 }
 
 .hub-title i {
-  font-size: 2rem;
+  font-size: 1.8rem;
   background: rgba(14, 165, 233, 0.12);
   border: 1px solid rgba(148, 163, 184, 0.3);
   padding: 0.8rem;
@@ -659,52 +664,46 @@ section {
   color: var(--cyan-glow);
 }
 
-.hub-stats-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
+.hub-features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
 }
 
-.hub-stat-card {
+.hub-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
   background: rgba(4, 12, 34, 0.7);
   border: 1px solid rgba(148, 163, 184, 0.2);
   border-radius: 16px;
-  padding: 1.3rem;
+  padding: 1.1rem 1.25rem;
   transition: var(--transition-spring);
 }
 
-.hub-stat-card:hover {
+.hub-feature-item:hover {
   background: rgba(8, 22, 56, 0.9);
   border-color: var(--silver-mid);
-  transform: translateY(-4px);
+  transform: translateX(4px);
 }
 
-.hub-stat-icon {
-  font-size: 1.2rem;
+.hub-feature-icon {
+  font-size: 1.25rem;
   color: var(--cyan-glow);
-  margin-bottom: 0.5rem;
-}
-
-.hub-stat-val {
-  font-family: var(--font-heading);
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: #ffffff;
-  line-height: 1.1;
-  margin-bottom: 0.2rem;
-}
-
-.hub-stat-lbl {
-  font-size: 0.8rem;
-  color: var(--silver-dark);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  background: rgba(14, 165, 233, 0.12);
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .hub-footer {
   display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
+  gap: 1.2rem;
+  flex-wrap: wrap;
   border-top: 1px solid rgba(148, 163, 184, 0.12);
   padding-top: 1.2rem;
 }
